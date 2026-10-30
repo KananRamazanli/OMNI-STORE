@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#132943" />
+  <title>AZAL Store Desk — Comprehensive Stock v10</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <div id="modeWelcome" class="welcome-screen mode-screen">
+    <div class="mode-welcome-card">
+      <div class="brand-mark large">AS</div>
+      <p class="eyebrow">AZAL · MATERIALS & TOOLING</p>
+      <h1>Store Desk</h1>
+      <p class="muted mode-intro">Choose which workspace to open. Demo and Real use separate data sources.</p>
+      <div class="mode-cards">
+        <section class="mode-card demo-mode-card">
+          <div class="mode-card-icon">◫</div>
+          <h2>Demo workspace</h2>
+          <p>Explore the full 50,667-row stock snapshot: Silk Way (SWT), AZAL (AHY), and all 39 company/store combinations. Changes stay local to this browser and are not shared with the live stock database.</p>
+          <button id="chooseDemoModeBtn" class="btn primary full" type="button">Enter Demo <span aria-hidden="true">→</span></button>
+          <span class="mode-card-foot">LOCAL SNAPSHOT · BROWSER ONLY</span>
+        </section>
+        <section class="mode-card real-mode-card">
+          <div class="mode-card-icon">◉</div>
+          <h2>Real workspace</h2>
+          <p>For production inventory shared between computers. Requires the approved online database and secure user accounts to be configured.</p>
+          <button id="chooseRealModeBtn" class="btn secondary full" type="button">Enter Real <span aria-hidden="true">→</span></button>
+          <span class="mode-card-foot">SHARED DATABASE · NO DEMO STOCK</span>
+        </section>
+      </div>
+      <div class="inline-note mode-safety-note"><strong>Important:</strong> Real mode will not load the local stock snapshot. Until the shared database and authentication are configured, it will show setup instructions instead of pretending to be live.</div>
+      <p class="fine-print">AZAL Store Desk — Comprehensive Stock v10 · Choose explicitly each time</p>
+    </div>
+  </div>
+
+  <div id="realLoginScreen" class="login-screen hidden">
+    <div class="login-card">
+      <div class="brand-mark large">AS</div>
+      <p class="eyebrow">AZAL · REAL WORKSPACE</p>
+      <h1>Real account sign-in</h1>
+      <p class="muted login-copy">Use the username and password assigned to your AZAL Store Desk — Comprehensive Stock v10 account. These are application credentials, not database credentials.</p>
+      <div class="warning-note" style="margin:16px 0"><strong>Real login is not active yet.</strong><br>This build has not been connected to the shared database and authentication service. Do not enter production credentials here yet. You do not need a Supabase account just to sign in; the backend is a one-time deployment setup that must be completed by the application owner.</div>
+      <form id="realLoginForm" class="stack-form">
+        <label>Username<input id="realUsername" required autocomplete="username" placeholder="e.g. kanan.ramazanli" /></label>
+        <label>Password<input id="realPassword" type="password" required autocomplete="current-password" /></label>
+        <button id="realSignInBtn" class="btn primary full" type="submit" disabled>Sign-in enabled after backend setup</button>
+        <button id="backFromRealLoginBtn" class="btn full" type="button">Back to Demo / Real choice</button>
+      </form>
+      <div id="realLoginMessage" class="form-message" role="status" aria-live="polite"></div>
+      <p class="fine-print">When enabled, this screen will authenticate app users through the configured backend. For now, only Demo mode is functional.</p>
+    </div>
+    <div class="login-side"><div class="plane-line"></div><p class="eyebrow light">REAL INVENTORY · SHARED DATA</p><h2>One shared stock picture.<br>Every action accounted for.</h2><p>Live inventory will be enabled only after shared-database reads/writes and server-side permissions are fully verified.</p></div>
+  </div>
+
+  <div id="loginScreen" class="login-screen hidden">
+    <div class="login-card">
+      <div class="brand-mark large">AS</div>
+      <p class="eyebrow">AZAL · MATERIALS & TOOLING</p>
+      <h1>Choose an account</h1>
+      <p class="muted login-copy">Select which active demo account to use. This makes it possible to test Admin, Superuser and Ordinary User permissions without automatically entering Kanan's account.</p>
+      <div class="demo-warning" style="margin:16px 0">Local demo only: passwords and authentication are not verified in this browser prototype. The online version will use secure username/password authentication.</div>
+      <form id="loginForm" class="stack-form">
+        <label>Active demo account<select id="demoAccountSelect" required><option value="">Choose an account…</option></select></label>
+        <button class="btn primary full" type="submit">Enter selected account <span aria-hidden="true">→</span></button>
+        <button class="btn full" id="backToWelcomeBtn" type="button">Back</button>
+      </form>
+      <div id="loginMessage" class="form-message" role="status" aria-live="polite"></div>
+      <p class="fine-print">Demo accounts are stored locally on this computer only.</p>
+    </div>
+    <div class="login-side"><div class="plane-line"></div><p class="eyebrow light">CONTROLLED INVENTORY · TRACEABLE MOVEMENTS</p><h2>One shared stock picture.<br>Every action accounted for.</h2><p>Parts, tools, incoming stock, releases, returns and history in one place.</p></div>
+  </div>
+
+  <div id="demoWelcome" class="welcome-screen hidden">
+    <div class="welcome-card">
+      <div class="brand-mark large">AS</div>
+      <p class="eyebrow">AZAL · MATERIALS & TOOLING</p>
+      <h1>Store Desk</h1>
+      <p class="muted">A local workspace loaded with the full stock snapshot, including parts and the four confirmed tool stores.</p>
+      <div class="demo-warning"><strong>Local stock snapshot only</strong><br>The workbook inventory is loaded, but status/serviceability and several master-data fields are unverified. Changes remain in this browser and do not sync to other users or devices.</div>
+      <button id="openDemoBtn" class="btn primary full">Choose account to open demo <span aria-hidden="true">→</span></button>
+      <button id="backDemoModeBtn" class="btn full" type="button" style="margin-top:8px">Back to Demo / Real choice</button>
+      <p class="fine-print">Real inventory is a separate workspace and is never loaded from this demo dataset.</p>
+    </div>
+  </div>
+
+  <div id="appShell" class="app-shell hidden">
+    <aside class="sidebar" id="sidebar">
+      <div class="brand-row"><div class="brand-mark">AS</div><div class="brand-text"><strong>Store Desk</strong><span>AZAL · INVENTORY</span></div></div>
+      <div class="workspace-label">WORKSPACE <span class="workspace-dot"></span></div>
+      <nav id="mainNav" class="nav-groups">
+        <div class="nav-group-label">OVERVIEW</div>
+        <button class="nav-link active" data-page="dashboard"><span class="nav-icon">▦</span>Dashboard</button>
+        <div class="nav-group-label">INVENTORY</div>
+        <button class="nav-link" data-page="parts"><span class="nav-icon">▤</span>Parts Inventory</button>
+        <button class="nav-link" data-page="tools"><span class="nav-icon">⌁</span>Tools Inventory</button>
+        <button class="nav-link" data-page="definitions"><span class="nav-icon">＋</span>Part Definition</button>
+        <button class="nav-link" data-page="incoming"><span class="nav-icon">⇩</span>Incoming Parts</button>
+        <button class="nav-link" data-page="partDelivery"><span class="nav-icon">↗</span>Parts Release & Returns</button>
+        <button class="nav-link" data-page="toolDelivery"><span class="nav-icon">⌁</span>Tool Delivery & Returns</button>
+        <button class="nav-link" data-page="calibration"><span class="nav-icon">◷</span>Calibration & Maintenance</button>
+        <div class="nav-group-label">CONTROL</div>
+        <button class="nav-link" data-page="history"><span class="nav-icon">↺</span>Transaction History</button>
+        <button class="nav-link" data-page="reports"><span class="nav-icon">▥</span>Reports & Export</button>
+        <button class="nav-link admin-only" data-page="users"><span class="nav-icon">♙</span>User Management</button>
+        <button class="nav-link admin-only" data-page="data"><span class="nav-icon">⇧</span>Stock Import / Reset</button>
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="support-card"><div class="support-orb">?</div><div><strong>Need a reminder?</strong><p>Expiry and calibration alerts appear on the dashboard.</p></div></div>
+        <div class="sidebar-foot"><div class="status-light"></div><span id="connectionText">Local demo · browser-only</span></div>
+      </div>
+    </aside>
+
+    <main class="main-area">
+      <header class="topbar">
+        <button id="mobileMenuBtn" class="icon-btn mobile-only" aria-label="Open navigation">☰</button>
+        <div class="crumbs"><span>Store Desk</span><span class="slash">/</span><strong id="pageCrumb">Dashboard</strong></div>
+        <div class="top-actions">
+          <div class="top-search"><span>⌕</span><input id="globalSearch" placeholder="Search parts, serials, tags…" aria-label="Search inventory" /><kbd>⌘ K</kbd></div>
+          <button id="syncNowBtn" class="btn secondary small hidden" title="Reload the latest shared data" type="button">↻ Sync</button><button id="changePasswordBtn" class="icon-btn" title="Change my password">⚿</button>
+          <div class="user-menu-wrap"><button id="profileButton" class="profile-button"><span id="profileAvatar" class="avatar">KR</span><span class="profile-copy"><strong id="profileName">Kanan Ramazanli</strong><small id="profileRole">ADMIN</small></span><span class="chevron">⌄</span></button><div id="profileMenu" class="profile-menu hidden"><button id="myAccountMenu">My account / password</button><button id="signOutBtn">Sign out</button></div></div>
+        </div>
+      </header>
+      <div id="demoBanner" class="demo-banner"><span class="demo-pill">DEMO MODE</span><span>50,667 source records · 1,633,483 recorded units · local-only; unverified stock starts in Quarantine.</span><button id="dismissDemoBanner" aria-label="Dismiss banner">×</button></div>
+      <section id="pageContent" class="page-content"></section>
+      <footer class="app-footer"><span>AZAL Store Desk — Comprehensive Stock v10</span><span>Inventory control · Traceable activity</span></footer>
+    </main>
+  </div>
+
+  <div id="modalRoot"></div>
+  <div id="toastRegion" class="toast-region" aria-live="polite"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js" defer></script>
+  <script src="config.js"></script>
+  <script src="demo-stock.js"></script>
+  <script src="app.js"></script>
+  <script src="mode-controller.js"></script>
+</body>
+</html>
